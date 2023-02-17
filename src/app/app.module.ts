@@ -1,11 +1,13 @@
 import {isDevMode, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {AppRoutingModule} from 'src/app/app-routing.module';
-import {AppComponent} from 'src/app/app.component';
-import {AuthModule} from "src/app/auth/auth.module";
 import {StoreModule} from "@ngrx/store";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {HttpClientModule} from "@angular/common/http";
+import {EffectsModule} from "@ngrx/effects";
 
+import {AuthModule} from "src/app/auth/auth.module";
+import {AppComponent} from 'src/app/app.component';
+import {AppRoutingModule} from 'src/app/app-routing.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,10 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
     BrowserModule,
     AppRoutingModule,
     AuthModule,
-    StoreModule.forRoot({}),StoreDevtoolsModule.instrument({
+    HttpClientModule,
+    EffectsModule.forRoot([]),
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open

@@ -1,25 +1,24 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {select, Store} from "@ngrx/store";
-import {Observable} from "rxjs";
+import {Component, OnInit} from '@angular/core'
+import {FormGroup, FormBuilder, Validators} from '@angular/forms'
+import {Store, select} from '@ngrx/store'
+import {Observable} from 'rxjs'
 
+
+import {isSubmittingSelector} from 'src/app/auth/store/selectors'
 import {registerAction} from "../../store/actions/register.action";
-import {isSubmittingSelector} from "../../store/selectors";
-import {AppStateInterface} from "../../../shared/types/appState.interface";
+import {AuthService} from "../../services/auth.service";
+import {CurrentUserInterface} from "../../../shared/types/currentUser.interface";
 
 @Component({
-  selector: 'an-register',
+  selector: 'mc-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  form: FormGroup;
+  form: FormGroup
   isSubmitting$: Observable<boolean>
 
-  constructor(
-    private fb: FormBuilder,
-    private store: Store<AppStateInterface>) {
-  }
+  constructor(private fb: FormBuilder, private store: Store, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initializeForm()
@@ -28,20 +27,24 @@ export class RegisterComponent implements OnInit {
 
   initializeValues(): void {
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector))
-    console.log(this.isSubmitting$)
   }
 
   initializeForm(): void {
+    console.log('initializeForm')
     this.form = this.fb.group({
       username: ['', Validators.required],
-      email: '',
-      password: '',
+      email: ['', Validators.required],
+      password: ['', Validators.required]
     })
-    console.log(this.form.valid)
   }
 
-  onSubmit() {
-    console.log(this.form.value)
+  onSubmit(): void {
+    console.log('submit', this.form.value, this.form.valid)
     this.store.dispatch(registerAction(this.form.value))
+    this.authService
+      .register(this.form.value)
+      .subscribe((currentUser: CurrentUserInterface)=>{
+        console.log('currentUser',currentUser)
+      })
   }
 }
