@@ -8,6 +8,7 @@ import {isSubmittingSelector} from 'src/app/auth/store/selectors'
 import {registerAction} from "../../store/actions/register.action";
 import {AuthService} from "../../services/auth.service";
 import {CurrentUserInterface} from "../../../shared/types/currentUser.interface";
+import {RegisterRequestInterface} from "../../types/registerRequest.interface";
 
 @Component({
   selector: 'mc-register',
@@ -40,11 +41,9 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     console.log('submit', this.form.value, this.form.valid)
-    this.store.dispatch(registerAction(this.form.value))
-    this.authService
-      .register(this.form.value)
-      .subscribe((currentUser: CurrentUserInterface)=>{
-        console.log('currentUser',currentUser)
-      })
+    const request: RegisterRequestInterface = {
+      user: this.form.value
+    }
+    this.store.dispatch(registerAction({request}))
   }
 }

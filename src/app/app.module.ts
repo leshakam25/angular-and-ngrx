@@ -18,8 +18,8 @@ import {AppRoutingModule} from 'src/app/app-routing.module';
     AppRoutingModule,
     AuthModule,
     HttpClientModule,
-    EffectsModule.forRoot([]),
     StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode

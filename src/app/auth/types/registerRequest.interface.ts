@@ -5,3 +5,4 @@ export interface RegisterRequestInterface {
     username: string
   }
 }
+
