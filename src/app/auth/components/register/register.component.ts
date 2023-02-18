@@ -4,11 +4,10 @@ import {Store, select} from '@ngrx/store'
 import {Observable} from 'rxjs'
 
 
-import {isSubmittingSelector} from 'src/app/auth/store/selectors'
+import {isSubmittingSelector, validationErrorsSelector} from 'src/app/auth/store/selectors'
 import {registerAction} from "../../store/actions/register.action";
-import {AuthService} from "../../services/auth.service";
-import {CurrentUserInterface} from "../../../shared/types/currentUser.interface";
 import {RegisterRequestInterface} from "../../types/registerRequest.interface";
+import {BackendErrorsInterface} from "../../../shared/types/backendErrors.interface";
 
 @Component({
   selector: 'mc-register',
@@ -18,8 +17,10 @@ import {RegisterRequestInterface} from "../../types/registerRequest.interface";
 export class RegisterComponent implements OnInit {
   form: FormGroup
   isSubmitting$: Observable<boolean>
+  backendErrors$: Observable<BackendErrorsInterface | null>
 
-  constructor(private fb: FormBuilder, private store: Store, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private store: Store) {
+  }
 
   ngOnInit(): void {
     this.initializeForm()
@@ -28,10 +29,10 @@ export class RegisterComponent implements OnInit {
 
   initializeValues(): void {
     this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector))
+    this.backendErrors$ = this.store.pipe(select(validationErrorsSelector))
   }
 
   initializeForm(): void {
-    console.log('initializeForm')
     this.form = this.fb.group({
       username: ['', Validators.required],
       email: ['', Validators.required],
