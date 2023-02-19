@@ -3,11 +3,13 @@ import {FormGroup, FormBuilder, Validators} from '@angular/forms'
 import {Store, select} from '@ngrx/store'
 import {Observable} from 'rxjs'
 
-
-import {isSubmittingSelector, validationErrorsSelector} from 'src/app/auth/store/selectors'
-import {registerAction} from "../../store/actions/register.action";
-import {RegisterRequestInterface} from "../../types/registerRequest.interface";
-import {BackendErrorsInterface} from "../../../shared/types/backendErrors.interface";
+import {registerAction} from 'src/app/auth/store/actions/register.action'
+import {
+  isSubmittingSelector,
+  validationErrorsSelector
+} from 'src/app/auth/store/selectors'
+import {RegisterRequestInterface} from 'src/app/auth/types/registerRequest.interface'
+import {BackendErrorsInterface} from 'src/app/shared/types/backendErrors.interface'
 
 @Component({
   selector: 'mc-register',
@@ -33,6 +35,7 @@ export class RegisterComponent implements OnInit {
   }
 
   initializeForm(): void {
+    console.log('initializeForm')
     this.form = this.fb.group({
       username: ['', Validators.required],
       email: ['', Validators.required],
