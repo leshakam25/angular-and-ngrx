@@ -1,11 +1,15 @@
 import {Action, createReducer, on} from "@ngrx/store";
-import {registerAction, registerFailureAction, registerSuccessAction} from "./actions/register.action";
 
+import {
+  registerAction,
+  registerFailureAction,
+  registerSuccessAction
+} from "./actions/register.action";
 import {AuthStateInterface} from "src/app/auth/types/authState.interface";
 
 const initialState: AuthStateInterface = {
   isSubmitting: false,
-  currentUser:null,
+  currentUser: null,
   isLoggedIn: null,
   validationErrors: null
 }
@@ -38,6 +42,7 @@ const authReducer = createReducer(
     })
   )
 )
+
 export function reducers(state: AuthStateInterface, action: Action) {
   return authReducer(state, action)
 }
