@@ -10,13 +10,19 @@ import {reducers} from 'src/app/auth/store/reducers'
 import {AuthService} from 'src/app/auth/services/auth.service'
 import {RegisterEffect} from 'src/app/auth/store/effects/register.effect'
 import {BackendErrorMessagesModule} from 'src/app/shared/modules/backendErrorMessages/backendErrorMessages.module'
-import {PersistenceService} from '../shared/services/persistence.service'
-import {LoginEffect} from './store/effects/login.effect'
+import {PersistanceService} from 'src/app/shared/services/persistance.service'
+import {LoginEffect} from 'src/app/auth/store/effects/login.effect'
+import {LoginComponent} from 'src/app/auth/components/login/login.component'
+import {GetCurrentUserEffect} from 'src/app/auth/store/effects/getCurrentUser.effect'
 
 const routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   }
 ]
 
@@ -26,10 +32,14 @@ const routes = [
     RouterModule.forChild(routes),
     ReactiveFormsModule,
     StoreModule.forFeature('auth', reducers),
-    EffectsModule.forFeature([RegisterEffect,LoginEffect]),
+    EffectsModule.forFeature([
+      RegisterEffect,
+      LoginEffect,
+      GetCurrentUserEffect
+    ]),
     BackendErrorMessagesModule
   ],
-  declarations: [RegisterComponent],
-  providers: [AuthService, PersistenceService]
+  declarations: [RegisterComponent, LoginComponent],
+  providers: [AuthService, PersistanceService]
 })
 export class AuthModule {}

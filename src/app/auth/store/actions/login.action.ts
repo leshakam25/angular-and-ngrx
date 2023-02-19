@@ -1,8 +1,9 @@
 import {createAction, props} from '@ngrx/store'
-import {ActionTypes} from '../actionTypes'
-import {LoginRequestInterface} from '../../types/loginRequest.interface'
-import {CurrentUserInterface} from '../../../shared/types/currentUser.interface'
-import {BackendErrorsInterface} from '../../../shared/types/backendErrors.interface'
+
+import {ActionTypes} from 'src/app/auth/store/actionTypes'
+import {LoginRequestInterface} from 'src/app/auth/types/loginRequest.interface'
+import {CurrentUserInterface} from 'src/app/shared/types/currentUser.interface'
+import {BackendErrorsInterface} from 'src/app/shared/types/backendErrors.interface'
 
 export const loginAction = createAction(
   ActionTypes.LOGIN,

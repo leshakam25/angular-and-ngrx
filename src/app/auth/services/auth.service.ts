@@ -3,11 +3,11 @@ import {HttpClient} from '@angular/common/http'
 import {Observable} from 'rxjs'
 import {map} from 'rxjs/operators'
 
-import {environment} from 'src/environments/environment'
+import {RegisterRequestInterface} from 'src/app/auth/types/registerRequest.interface'
 import {CurrentUserInterface} from 'src/app/shared/types/currentUser.interface'
+import {environment} from 'src/environments/environment'
 import {AuthResponseInterface} from 'src/app/auth/types/authResponse.interface'
 import {LoginRequestInterface} from 'src/app/auth/types/loginRequest.interface'
-import {RegisterRequestInterface} from 'src/app/auth/types/registerRequest.interface'
 
 @Injectable()
 export class AuthService {
@@ -29,5 +29,10 @@ export class AuthService {
     return this.http
       .post<AuthResponseInterface>(url, data)
       .pipe(map(this.getUser))
+  }
+
+  getCurrentUser(): Observable<CurrentUserInterface> {
+    const url = environment.apiUrl + '/user'
+    return this.http.get(url).pipe(map(this.getUser))
   }
 }
