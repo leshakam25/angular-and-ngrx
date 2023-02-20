@@ -1,10 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core'
-import {UtilsService} from '../../../../services/utils.service'
+import {UtilsService} from 'src/app/shared/services/utils.service'
 
 @Component({
   selector: 'mc-pagination',
-  templateUrl: './pagination.component.html',
-  styleUrls: ['./pagination.component.scss']
+  templateUrl: './pagination.component.html'
 })
 export class PaginationComponent implements OnInit {
   @Input('total') totalProps: number
@@ -15,8 +14,7 @@ export class PaginationComponent implements OnInit {
   pagesCount: number
   pages: number[]
 
-  constructor(private utilsService: UtilsService) {
-  }
+  constructor(private utilsService: UtilsService) {}
 
   ngOnInit(): void {
     this.pagesCount = Math.ceil(this.totalProps / this.limitProps)
