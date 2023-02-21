@@ -1,7 +1,10 @@
 import {Component, Input, OnInit, OnDestroy} from '@angular/core'
 import {Store, select} from '@ngrx/store'
-import {getFeedAction} from 'src/app/shared/modules/feed/store/actions/getFeed.action'
 import {Observable, Subscription} from 'rxjs'
+import {Router, ActivatedRoute, Params} from '@angular/router'
+import {stringify, parseUrl} from 'query-string'
+
+import {getFeedAction} from 'src/app/shared/modules/feed/store/actions/getFeed.action'
 import {GetFeedResponseInterface} from 'src/app/shared/modules/feed/types/getFeedResponse.interface'
 import {
   feedSelector,
@@ -9,7 +12,6 @@ import {
   isLoadingSelector
 } from 'src/app/shared/modules/feed/store/selectors'
 import {environment} from 'src/environments/environment'
-import {Router, ActivatedRoute, Params} from '@angular/router'
 
 @Component({
   selector: 'mc-feed',
@@ -36,7 +38,6 @@ export class FeedComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initializeValues()
     this.initializeListeners()
-    this.fetchData()
   }
 
   ngOnDestroy(): void {
@@ -47,6 +48,7 @@ export class FeedComponent implements OnInit, OnDestroy {
     this.queryParamsSubscription = this.route.queryParams.subscribe(
       (params: Params) => {
         this.currentPage = Number(params.page || '1')
+        this.fetchFeed()
       }
     )
   }
@@ -58,7 +60,15 @@ export class FeedComponent implements OnInit, OnDestroy {
     this.baseUrl = this.router.url.split('?')[0]
   }
 
-  fetchData(): void {
-    this.store.dispatch(getFeedAction({url: this.apiUrlProps}))
+  fetchFeed(): void {
+    const offset = this.currentPage * this.limit - this.limit
+    const parsedUrl = parseUrl(this.apiUrlProps)
+    const stringifiedParams = stringify({
+      limit: this.limit,
+      offset,
+      ...parsedUrl.query
+    })
+    const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`
+    this.store.dispatch(getFeedAction({url: apiUrlWithParams}))
   }
 }
