@@ -26,4 +26,4 @@ const routes = [
   ],
   declarations: [GlobalFeedComponent]
 })
-export class GlobalFeedModule {}
+export class YourFeedModule {}
